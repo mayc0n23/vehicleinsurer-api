@@ -1,0 +1,26 @@
+version: "3.9"
+
+networks:
+  vehicleinsurer-network:
+    driver: bridge
+    
+services:
+  vehicleinsurer-mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - vehicleinsurer-network
+  
+  vehicleinsurer-api:
+    build: .
+    image: mayc0n23/vehicleinsurer-api
+    environment:
+      DB_HOST: vehicleinsurer-mongodb
+    ports:
+      - "8080:8080"
+    networks:
+      - vehicleinsurer-network
+    depends_on:
+      - vehicleinsurer-mongodb  
+    
